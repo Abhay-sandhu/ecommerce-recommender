@@ -1,0 +1,16 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+scipy
+implicit
+lightfm
+mlflow
+fastapi
+uvicorn
+streamlit
+sentence-transformers
+torch
+transformers
+dvc
