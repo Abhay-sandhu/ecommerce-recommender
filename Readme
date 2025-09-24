@@ -1,0 +1,58 @@
+# Personalized Product Recommender System (Instacart)
+
+## Project Overview
+This project builds a personalized recommender system for an e-commerce grocery dataset (Instacart).
+It uses a hybrid approach that combines:
+- Collaborative Filtering (CF) → Learns from user–item interactions (Neural CF with TensorFlow).
+- Content-Based Filtering (CBF) → Uses product names + metadata (aisle, department) with Sentence-Transformers embeddings.
+- Hybrid Reranking → Combines CF + CBF scores to generate final recommendations.
+
+The system is trained, saved, and exposed through a Gradio demo UI inside the notebook.
+
+## Dataset
+We use the Instacart Market Basket dataset (Kaggle):
+- Orders: 3.4M grocery orders from 200K users
+- Products: ~50K products across aisles & departments
+- Order-Products: Mapping of which user bought which products in which order
+
+For this project, we subset the dataset (10k users, 20k products) for faster prototyping.
+
+## Approach
+1. Collaborative Filtering (CF)
+   - TensorFlow Neural CF model with embeddings for users and items.
+   - Interaction matrix from order history.
+   - Negative sampling used for training.
+
+2. Content-Based Filtering (CBF)
+   - Product names, aisles, departments encoded with Sentence-Transformers (MiniLM).
+   - User profile = mean of purchased product embeddings.
+   - Recommendations ranked by cosine similarity.
+
+3. Hybrid Model
+   - Scores combined: score_hybrid = α * CF + (1 - α) * CBF
+   - Default α = 0.6
+   - Already purchased items masked out.
+
+## Demo
+Interactive Gradio demo (inside notebook):
+- Input: User ID
+- Output: Past purchases vs new recommendations side by side
+- Cold-start users get popular items fallback
+
+Example:
+
+Past Purchases       | Recommended Products
+---------------------|----------------------
+Greek Yogurt         | Vanilla Ice Cream
+Almond Milk          | Peach Sparkling Water
+
+## MLOps / Engineering
+- Model saving and loading: embeddings, mappings, and CF model with HybridRecommender class.
+- Deployment: Gradio UI in notebook 
+
+## Key Skills Demonstrated
+- Recommender systems: CF, CBF, Hybrid.
+- TensorFlow deep learning for embeddings.
+- NLP with Sentence-Transformers.
+- MLOps: saving/loading.
+- Interactive demo with Gradio.
